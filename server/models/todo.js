@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         notEmpty: {
           msg: "Date cannot be empty"
+        },
+        isAfter: {
+          args: new Date().toISOString().slice(0, 10),
+          msg: "Due date cannot before today"
         }
       }
     }
