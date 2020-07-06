@@ -253,3 +253,88 @@
 
   * **Code:** 500 INTERNAL SERVER ERROR<br />
     **Content:** `{ msg }`
+
+<br />
+
+* **URL**
+
+  >To Login into the app <br />
+  `/login`
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  **Required:**
+ 
+   `email = [string]`<br />
+   `password = [string]`
+
+* **Success Response:**
+  
+  **Code:** 200 OK <br />
+  **Content:** 
+    ```json
+    {
+      "msg": "[login.name] successfully logined!",
+      "token": [string]
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 400 Bad Request<br />
+    **Content:**
+    ```json
+      {
+        "msg": "email and password required for login"
+      }
+    ```
+    OR
+    ```json
+      {
+        "msg": "Username or Password Invalid"
+      }
+    ```
+
+<br />
+
+* **URL**
+
+  >To register a user <br />
+  `/register`
+
+* **Method:**
+
+  `POST`
+
+* **Data Params**
+
+  **Required:**
+ 
+   `name = [string]`<br />
+   `email = [string]`<br />
+   `password = [string]`
+
+* **Success Response:**
+  
+  **Code:** 200 OK <br />
+  **Content:** 
+    ```json
+    {
+      "name": [register.name],
+      "msg": "[register.name] successfully registered!"
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 400 Bad Request<br />
+    **Content:**
+    ```json
+      {
+        "msg": "name, email, and password required for register"
+      }
+    ```
