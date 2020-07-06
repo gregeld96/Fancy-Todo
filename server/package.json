@@ -1,0 +1,25 @@
+{
+  "name": "fancy-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregeld96/Fancy-Todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gregeld96/Fancy-Todo/issues"
+  },
+  "homepage": "https://github.com/gregeld96/Fancy-Todo#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.2.1",
+    "sequelize": "^6.3.0",
+    "sequelize-cli": "^6.2.0"
+  }
+}
