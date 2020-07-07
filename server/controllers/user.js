@@ -36,7 +36,7 @@ class UserController {
                     const checkPassword = comparePassword(password, foundUser.password)
 
                     if(checkPassword){
-                        const token = createToken({email: foundUser.email});
+                        const token = createToken({id: foundUser.id, email: foundUser.email});
                         res.status(200).json({msg: `${foundUser.name} successfully logined!`, token})
                     } else {
                         throw ({status: 404, msg: "Username or Password Invalid"});

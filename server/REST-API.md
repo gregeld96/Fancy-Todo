@@ -11,6 +11,14 @@
 
   `GET`
 
+* **Request Header:**
+
+  ```json
+    {
+      "token": < user token >
+    }
+    ```
+
 * **Success Response:**
 
   * **Code:** 200 OK <br />
@@ -46,6 +54,14 @@
 * **Method:**
 
   `POST`
+
+* **Request Header:**
+
+  ```json
+    {
+      "token": < user token >
+    }
+    ```
 
 * **Data Params**
 
@@ -108,6 +124,14 @@
  
    `id=[integer]`
 
+* **Request Header:**
+
+  ```json
+    {
+      "token": < user token >
+    }
+    ```
+  
 * **Success Response:**
   
   **Code:** 200 OK <br />
@@ -154,6 +178,14 @@
    **Required:**
  
    `id=[integer]`
+
+* **Request Header:**
+
+  ```json
+    {
+      "token": < user token >
+    }
+    ```
 
 * **Data Params**
 
@@ -220,6 +252,14 @@
    **Required:**
  
    `id=[integer]`
+
+* **Request Header:**
+
+  ```json
+    {
+      "token": < user token >
+    }
+    ```
 
 * **Success Response:**
   

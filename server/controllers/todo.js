@@ -2,11 +2,14 @@ const { Todo } = require('../models');
 
 class TodoController {
     static add(req, res){
+        let userId = req.userData.id;
+
         const newTodo = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            userId
         }
 
         Todo
@@ -31,8 +34,14 @@ class TodoController {
     }
 
     static read(req, res){
+        let userId = req.userData.id;
+
         Todo
-            .findAll()
+            .findAll({
+                where: {
+                    userId
+                }
+            })
             .then(data => {
                 res.status(200).json({ todos: data })
             })
