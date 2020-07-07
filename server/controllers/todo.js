@@ -1,7 +1,7 @@
 const { Todo } = require('../models');
 
 class TodoController {
-    static add(req, res){
+    static add(req, res, next){
         let userId = req.userData.id;
 
         const newTodo = {
@@ -18,22 +18,11 @@ class TodoController {
                 res.status(201).json({ todo })
             })
             .catch(err => {
-                let errArr = [];
-                if(err.name === "SequelizeValidationError"){
-                    for( let i = 0; i < err.errors.length; i++){
-                        errArr.push(err.errors[i].message)
-                    }
-                }
-
-                if(errArr.length > 0){
-                    res.status(400).json({msg: errArr.toString()})
-                } else {
-                    res.status(500).json(err.message)
-                }
+                next(err)
             })
     }
 
-    static read(req, res){
+    static read(req, res, next){
         let userId = req.userData.id;
 
         Todo
@@ -46,12 +35,11 @@ class TodoController {
                 res.status(200).json({ todos: data })
             })
             .catch(err => {
-                console.log(`INTERNAL SERVER ERROR`)
-                res.status(500).json(err.message)
+                next(err)
             })
     }
 
-    static filter(req, res){
+    static filter(req, res, next){
         Todo
             .findByPk(req.params.id)
             .then(data => {
@@ -62,11 +50,11 @@ class TodoController {
                 }
             })
             .catch(err => {
-                if (err.status) res.status(err.status).json({msg: err.msg});
+                next(err)
             })
     }
 
-    static update(req, res){
+    static update(req, res, next){
         const updatedTodo = {
             title: req.body.title,
             description: req.body.description,
@@ -87,23 +75,11 @@ class TodoController {
                 res.status(200).json({ todo: updatedTodo })
             })
             .catch(err => {
-                let errArr = [];
-                if(err.name === "SequelizeValidationError"){
-                    for( let i = 0; i < err.errors.length; i++){
-                        errArr.push(err.errors[i].message)
-                    }
-                }
-
-                if(errArr.length > 0){
-                    res.status(400).json({msg: errArr})
-                } else {
-                    if (err.status) res.status(err.status).json({msg: err.msg});
-                    else res.status(500).json(err.message);
-                }
+                next(err)
             })
     }
 
-    static delete(req, res){
+    static delete(req, res, next){
         let info = null;
         Todo
             .findByPk(req.params.id)
@@ -119,9 +95,7 @@ class TodoController {
                 res.status(200).json({ todo: info })
             })
             .catch(err => {
-                //console.log(err);
-                if (err.status) res.status(err.status).json({msg: err.msg});
-                else res.status(500).json(err.message);
+                next(err)
             })
     }
 }

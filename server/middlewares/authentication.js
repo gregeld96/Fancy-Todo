@@ -5,8 +5,6 @@ async function Authentication (req, res,  next){
     const { token } = req.headers
 
     try {
-        if(!token) throw ({msg: "You don't have token", status: 400})
-        else {
             const decoded = verifyToken(token);
             const user = await User.findOne({
                 where: {
@@ -18,13 +16,9 @@ async function Authentication (req, res,  next){
             else {
                 req.userData = decoded;
                 next()
-            }
         }
-      } 
-    catch(err) {
-        let status = err.status || "500";
-        let message = err.msg || "Internal Server Error"
-        res.status(status).json({msg: message});
+      } catch(err) {
+            next(err)
       }
 }
 

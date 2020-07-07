@@ -3,31 +3,30 @@ const { comparePassword } = require('../helpers/bcrypt');
 const { createToken } = require('../helpers/jwt');
 
 class UserController {
-    static register(req,res){
+    static register(req,res,next){
         const newUser = {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password
         }
 
-        if(!req.body.name || !req.body.email || !req.body.password){
-            res.status(400).json({msg: `name, email, and password required for register`});
-        } else {
-            User.create(newUser)
-                .then(data => {
-                    res.status(201).json({name: data.name, msg: `${newUser.name} successfully registered!`})
-                })
-                .catch(err => {
-                    res.status(500).json({msg: err.message});
-                })
-        }
+        User.create(newUser)
+            .then(data => {
+                res.status(201).json({name: data.name, msg: `${newUser.name} successfully registered!`})
+            })
+            .catch(err => {
+                next(err)
+            })
     }
 
-    static login(req,res){
+    static login(req,res,next){
         const {email, password} = req.body
 
         if(!email || !password){
-            res.status(400).json({msg: `email and password required for login`})
+            next({
+                status: 400,
+                msg: `email and password required for login`
+            })
         } else {
             User.findOne({where: {email}})
                 .then(foundUser => {
@@ -43,8 +42,7 @@ class UserController {
                     }
                 })
                 .catch(err => {
-                    if (err.status) res.status(err.status).json({msg: err.msg});
-                    else res.status(500).json({msg: err.message});
+                    next(err)
                 })
         }
     }

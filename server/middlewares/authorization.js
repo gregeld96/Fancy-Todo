@@ -10,9 +10,7 @@ function Authorization(req,res,next){
             else throw ({status: 403, msg: "You are not Authorized!"})
         })
         .catch(err => {
-            let status = err.status || "500"
-            let message = err.msg || "Internal Server Error"
-            res.status(status).json({msg: message});
+            next(err)
         })
 }
 

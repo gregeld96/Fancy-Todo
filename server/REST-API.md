@@ -41,6 +41,16 @@
  
 * **Error Response:**
 
+    * **Code:** 400 BAD REQUEST <br />
+    **Content:** 
+    ```json
+    {
+      "msg": "token invalid!"
+    }
+    ```
+
+    OR
+
   **Code:** 500 INTERNAL SERVER ERROR<br />
   **Content:** `{ msg }`
 
@@ -100,6 +110,12 @@
     {
       "msg": "Title cannot be empty,Description cannot be empty,Status cannot be empty,Must be in date format,Date cannot be empty"
     }
+
+    OR
+
+    {
+      "msg": "token invalid!"
+    }
     ```
 
   OR
@@ -153,6 +169,25 @@
     ```
  
 * **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** 
+    ```json
+    {
+      "msg": "token invalid!"
+    }
+    ```
+  OR
+
+  * **Code:** 403 Forbidden<br />
+    **Content:**
+    ```json
+      {
+        "msg": "You are not Authorized!"
+      }
+    ```
+
+    OR
 
   * **Code:** 404 Not Found<br />
     **Content:**
@@ -219,10 +254,26 @@
     {
       "msg": "Title cannot be empty,Description cannot be empty,Status cannot be empty,Must be in date format,Date cannot be empty"
     }
+
+    OR
+
+    {
+      "msg": "token invalid!"
+    }
     ```
 
   OR
 
+  * **Code:** 403 Forbidden<br />
+    **Content:**
+    ```json
+      {
+        "msg": "You are not Authorized!"
+      }
+    ```
+
+  OR
+  
   * **Code:** 404 Not Found<br />
     **Content:**
     ```json
@@ -281,6 +332,24 @@
  
 * **Error Response:**
 
+  * **Code:** 400 Bad Request<br />
+    **Content:**
+    ```json
+      {
+        "msg": "token invalid!"
+      }
+    ```
+    
+  * **Code:** 403 Forbidden<br />
+    **Content:**
+    ```json
+      {
+        "msg": "You are not Authorized!"
+      }
+    ```
+
+  OR
+
   * **Code:** 404 Not Found<br />
     **Content:**
     ```json
@@ -288,9 +357,9 @@
         "msg": "Data not found"
       }
     ```
-
+  
   OR
-
+  
   * **Code:** 500 INTERNAL SERVER ERROR<br />
     **Content:** `{ msg }`
 
@@ -375,6 +444,84 @@
     **Content:**
     ```json
       {
-        "msg": "name, email, and password required for register"
+        "msg": "name cannot be empty,Use the right email format,Password cannot be empty"
       }
     ```
+
+<br />
+
+* **URL**
+
+  >To find a random activity <br />
+  `/boredom/activity`
+
+* **Method:**
+
+  `GET`
+
+* **Success Response:**
+  
+  **Code:** 200 OK <br />
+  **Content:** 
+    ```json
+    {
+      "activity": {
+        "activity": "Listen to your favorite album",
+        "type": "music",
+        "participants": 1,
+        "price": 0.08,
+        "link": "",
+        "key": "3136729",
+        "accessibility": 0.2
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  **Code:** 500 INTERNAL SERVER ERROR<br />
+  **Content:** `{ msg }`
+
+<br />
+
+* **URL**
+
+  >To find a random activity based on type <br />
+  `/boredom/activity/:type`
+
+* **Method:**
+
+  `GET`
+
+* **Success Response:**
+  
+  **Code:** 200 OK <br />
+  **Content:** 
+    ```json
+    {
+      "activity": {
+        "activity": "Listen to your favorite album",
+        "type": "music",
+        "participants": 1,
+        "price": 0.08,
+        "link": "",
+        "key": "3136729",
+        "accessibility": 0.2
+      }
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404 Not Found<br />
+    **Content:**
+    ```json
+      {
+        "msg": "No activity found with the specified parameters"
+      }
+    ```
+  
+  OR
+
+  **Code:** 500 INTERNAL SERVER ERROR<br />
+  **Content:** `{ msg }`
