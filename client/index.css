@@ -1,0 +1,12 @@
+body {
+    height: 100%;
+}
+
+#login-form {
+    background: rgb(105, 243, 123);
+    height: 100%;
+}
+
+#img-login {
+    width: 75%;
+}
