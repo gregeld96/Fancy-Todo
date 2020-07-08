@@ -12,6 +12,7 @@ function authetication() {
         $('#register-form').hide()
         $('#create-form').hide()
         $('#edit-form').hide()
+        $('.message').empty();
         fetchList()
     } else {
         $('#home-page').hide()
@@ -19,10 +20,12 @@ function authetication() {
         $('#register-form').hide()
         $('#create-form').hide()
         $('#edit-form').hide()
+        $('.message').empty();
     }
 }
 
 function registerBtn() {
+    $('.message').empty()
     $('#home-page').hide()
     $('#login-form').hide()
     $('#register-form').show()
@@ -33,17 +36,20 @@ function registerBtn() {
 function addBtn (){
     $('#home-page').hide()
     $('#create-form').show()
+    $('.message').empty();
 }
 
 function homeBtn (){
     $('#home-page').show()
     $('#create-form').hide()
     $('#edit-form').hide()
+    $('.message').empty();
 }
 
 function logout() {
     localStorage.clear()
     authetication()
+    signOut()
 }
 
 function login() {
@@ -64,7 +70,10 @@ function login() {
             authetication()
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').empty();
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
         .always(() => {
             email = $('#email-login').val()
@@ -91,7 +100,10 @@ function register (){
             authetication()
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').empty();
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
         .always(() => {
             name = $('#fullname').val()
@@ -134,7 +146,9 @@ function fetchList(){
             });
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
 }
 
@@ -163,7 +177,9 @@ function addSubmit () {
             authetication();
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
         .always(() => {
             title = $('#title-add').val()
@@ -192,7 +208,9 @@ function editTodo(id){
             due_date = $('#dueDate-edit').val(data.todo.due_date)
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
 }
 
@@ -221,7 +239,9 @@ function editSubmit () {
             authetication();
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
 }
 
@@ -237,6 +257,42 @@ function remove (id) {
             authetication()
         })
         .fail(err => {
-            console.log(err.responseJSON, '======> local error')
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
         })
 }
+
+function onSignIn(googleUser) {
+    // var profile = googleUser.getBasicProfile();
+    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    let id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        url: `${baseUrl}/googlelogin`,
+        method: 'POST',
+        data: {
+            id_token
+        }
+    })
+        .done(data => {
+            localStorage.setItem('token', data.token)
+            authetication()
+        })
+        .fail(err => {
+            $('.message').append(`
+                <p>${err.responseJSON.msg}</p>
+            `)
+        })
+  }
+
+  function signOut() {
+    let auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }

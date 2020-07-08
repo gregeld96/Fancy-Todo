@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="660016295050-b8avisbe1hkf65mfej8etg9kc2t73mmt.apps.googleusercontent.com">
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>Fancy Todo App</title>
@@ -17,32 +18,28 @@
             <div class="col-5">
                 <div id="login-container">
                     <h1>Welcome on Bored Todo App</h1>
+                    <div class="message"></div>
                     <form onsubmit="login(event)" class="my-4">
                       <div class="form-group">
-                        <input
-                          type="email"
-                          class="form-control"
-                          name="email"
-                          id="email-login"
-                        />
+                        <input type="email" class="form-control" name="email" id="email-login"/>
                       </div>
                       <div class="form-group">
-                        <input
-                          type="password"
-                          class="form-control"
-                          name="password"
-                          id="password-login"
-                        />
+                        <input type="password" class="form-control" name="password" id="password-login"/>
                       </div>
                       <button id="btn-login" type="submit" class="btn btn-primary">
-                        Submit
+                        Login
                       </button>
                     </form>
-                    <p onclick="registerBtn()">Don't have account ?</p>
+                    <button onclick="registerBtn()" class="btn btn-secondary">
+                      Don't have account ?
+                    </button>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    
                   </div>
             </div>
         </div>
     </section>
+
     <!-- SECTION REGISTER -->
     <section id="register-form">
         <div class="row">
@@ -50,6 +47,7 @@
             <div class="col-5">
                 <div>
                     <h1>Register</h1>
+                    <div class="message"></div>
                     <form onsubmit="register(event)" class="my-4">
                       <div class="form-group">
                         <label for="fullname">Full Name</label>
@@ -127,6 +125,7 @@
             <div class="col-5">
                 <div id="create-container">
                     <h1>Create My Todo List</h1>
+                    <div class="message"></div>
                     <form onsubmit="addSubmit(event)" class="my-4">
                       <div class="form-group">
                         <label for="title-add">title</label>
@@ -135,7 +134,6 @@
                           class="form-control"
                           name="title"
                           id="title-add"
-                          required
                         />
                       </div>  
                       <div class="form-group">
@@ -145,7 +143,6 @@
                           class="form-control"
                           name="description"
                           id="description-add"
-                          required
                         />
                       </div>
                       <div class="form-group">
@@ -155,7 +152,6 @@
                           class="form-control"
                           name="status"
                           id="status-add"
-                          required
                         />
                       </div>
                       <div class="form-group">
@@ -165,7 +161,6 @@
                           class="form-control"
                           name="due_date"
                           id="dueDate-add"
-                          required
                         />
                       </div>
                       <button type="submit" class="btn btn-primary">
@@ -195,6 +190,7 @@
             <div class="col-5">
                 <div id="edit-container">
                     <h1>Edit My Todo List</h1>
+                    <div class="message"></div>
                     <form onsubmit="editSubmit(event)" class="my-4">
                       <div class="form-group">
                         <label for="title-edit">title</label>
@@ -203,7 +199,6 @@
                           class="form-control"
                           name="title"
                           id="title-edit"
-                          required
                         />
                       </div>  
                       <div class="form-group">
@@ -213,7 +208,6 @@
                           class="form-control"
                           name="description"
                           id="description-edit"
-                          required
                         />
                       </div>
                       <div class="form-group">
@@ -223,7 +217,6 @@
                           class="form-control"
                           name="status"
                           id="status-edit"
-                          required
                         />
                       </div>
                       <div class="form-group">
@@ -233,7 +226,6 @@
                           class="form-control"
                           name="due_date"
                           id="dueDate-edit"
-                          required
                         />
                       </div>
                       <button type="submit" class="btn btn-primary">
@@ -245,8 +237,7 @@
         </div>
     </section>
 
-
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </body>
