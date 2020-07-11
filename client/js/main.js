@@ -8,34 +8,42 @@ $(document).ready(function() {
 function authetication() {
     if(localStorage.token){
         $('#home-page').show()
+        fetchList()
+        $('#navbar').show()
         $('#login-form').hide()
         $('#register-form').hide()
         $('#create-form').hide()
         $('#edit-form').hide()
+        $('#boredom-form').hide()
         $('.message').empty();
-        fetchList()
     } else {
-        $('#home-page').hide()
         $('#login-form').show()
+        $('#home-page').hide()
+        $('#navbar').hide()
         $('#register-form').hide()
         $('#create-form').hide()
         $('#edit-form').hide()
+        $('#boredom-form').hide()
         $('.message').empty();
     }
 }
 
 function registerBtn() {
     $('.message').empty()
+    $('#register-form').show()
     $('#home-page').hide()
     $('#login-form').hide()
-    $('#register-form').show()
     $('#create-form').hide()
     $('#edit-form').hide()
+    $('#boredom-form').hide()
+    $('#navbar').hide()
 }
 
 function addBtn (){
-    $('#home-page').hide()
     $('#create-form').show()
+    $('#home-page').hide()
+    $('#edit-form').hide()
+    $('#boredom-form').hide()
     $('.message').empty();
 }
 
@@ -43,11 +51,13 @@ function homeBtn (){
     $('#home-page').show()
     $('#create-form').hide()
     $('#edit-form').hide()
+    $('#boredom-form').hide()
     $('.message').empty();
 }
 
 function logout() {
     localStorage.clear()
+    sessionStorage.clear()
     authetication()
     signOut()
 }
@@ -65,14 +75,13 @@ function login() {
         }
     })
         .done(data => {
-            //console.log(data.token)
             localStorage.setItem('token', data.token);
             authetication()
         })
         .fail(err => {
             $('.message').empty();
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class=" text-center alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
         .always(() => {
@@ -100,9 +109,10 @@ function register (){
             authetication()
         })
         .fail(err => {
+            //console.log(err)
             $('.message').empty();
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class="alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
         .always(() => {
@@ -125,34 +135,33 @@ function fetchList(){
             $('.list-group').empty();
             data.todos.forEach(todo => {
                 $('.list-group').append(`
-                <div class="row">
+                <div class="row justify-content-center">
                     <div class="col-7">
-                        <div style="cursor:pointer" class="list-group-item list-group-item-action" onclick="editTodo(${todo.id})">
+                        <div style="cursor:pointer" class="list-group-item list-group-item-action rounded-lg" onclick="editTodo(${todo.id})">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">${todo.title}</h5>
                                 <small>${todo.status}</small>
                             </div>
                             <p class="mb-1">${todo.description}</p>
-                            <small>Due date: ${todo.due_date}</small>
+                            <small>Due date: ${todo.due_date.substring(0,10)}</small>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <button onclick="remove(${todo.id})">
-                            Delete
-                        </button>
+                    <div class="col-1">
+                        <img src="https://img.icons8.com/ios/20/000000/trash.png"  class="my-5" onclick="remove(${todo.id})"/>
                     </div>
                 </div>
                 `)
             });
         })
         .fail(err => {
+            $('.message').empty();
             $('.message').append(`
                 <p>${err.responseJSON.msg}</p>
             `)
         })
 }
 
-function addSubmit () {
+function addSubmit (event) {
     event.preventDefault();
     let title = $('#title-add').val()
     let description = $('#description-add').val()
@@ -177,8 +186,9 @@ function addSubmit () {
             authetication();
         })
         .fail(err => {
+            $('.message').empty();
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class="text-center alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
         .always(() => {
@@ -205,16 +215,16 @@ function editTodo(id){
             title = $('#title-edit').val(data.todo.title)
             description = $('#description-edit').val(data.todo.description)
             status = $('#status-edit').val(data.todo.status)
-            due_date = $('#dueDate-edit').val(data.todo.due_date)
+            due_date = $('#dueDate-edit').val(data.todo.due_date.substring(0,10))
         })
         .fail(err => {
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class="text-center alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
 }
 
-function editSubmit () {
+function editSubmit (event) {
     event.preventDefault();
     let title = $('#title-edit').val()
     let description = $('#description-edit').val()
@@ -235,12 +245,13 @@ function editSubmit () {
         }
     })
         .done(data => {
-            console.log(data)
+            //console.log(data)
             authetication();
         })
         .fail(err => {
+            $('.message').empty();
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class="text-center alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
 }
@@ -258,17 +269,100 @@ function remove (id) {
         })
         .fail(err => {
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class="alert alert-warning">${err.responseJSON.msg}</p>
+            `)
+        })
+}
+
+function boredBtn(){
+    $('#home-page').hide()
+    $('#create-form').hide()
+    $('#edit-form').hide()
+    $('#boredom-form').show()
+
+    $.ajax({
+        url: `${baseUrl}/boredom/activity`,
+        method: 'GET',
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            //console.log(data)
+            title = $('#title-boredom').val(data.activity.type)
+            description = $('#description-boredom').val(data.activity.activity)
+            status = $('#status-boredom').val('pending')
+            due_date = $('#dueDate-boredom').val(new Date().toISOString().substring(0,10))
+        })
+        .fail(err => {
+            $('.message').append(`
+                <p class="text-center alert alert-warning">${err.responseJSON.msg}</p>
+            `)
+        })
+}
+
+function randomSubmit(event){
+    event.preventDefault();
+    $('#home-page').hide()
+    $('#create-form').hide()
+    $('#edit-form').hide()
+    $('#boredom-form').show()
+    let type = $('#type').val()
+
+    $.ajax({
+        url: `${baseUrl}/boredom/activity/${type}`,
+        method: 'GET',
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(data => {
+            //console.log(data)
+            title = $('#title-boredom').val(data.activity.type)
+            description = $('#description-boredom').val(data.activity.activity)
+            status = $('#status-boredom').val('pending')
+            due_date = $('#dueDate-boredom').val(new Date().toISOString().substring(0,10))
+        })
+        .fail(err => {
+            $('.message').append(`
+                <p class="text-center alert alert-warning">${err.responseJSON.msg}</p>
+            `)
+        })
+}
+
+function boredomSubmit (event) {
+    event.preventDefault();
+    let title = $('#title-boredom').val()
+    let description = $('#description-boredom').val()
+    let status = $('#status-boredom').val()
+    let due_date = $('#dueDate-boredom').val()
+
+    $.ajax({
+        url: `${baseUrl}/todos/add`,
+        method: 'POST',
+        headers: {
+            token: localStorage.token
+        },
+        data: {
+            title,
+            description,
+            status,
+            due_date
+        }
+    })
+        .done(data => {
+            console.log(data)
+            authetication();
+        })
+        .fail(err => {
+            $('.message').empty();
+            $('.message').append(`
+                <p class="text-center alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
 }
 
 function onSignIn(googleUser) {
-    // var profile = googleUser.getBasicProfile();
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
     let id_token = googleUser.getAuthResponse().id_token;
 
@@ -285,14 +379,14 @@ function onSignIn(googleUser) {
         })
         .fail(err => {
             $('.message').append(`
-                <p>${err.responseJSON.msg}</p>
+                <p class="alert alert-warning">${err.responseJSON.msg}</p>
             `)
         })
-  }
+}
 
-  function signOut() {
+function signOut() {
     let auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-  }
+}

@@ -4,6 +4,7 @@ module.exports = function (err, req, res, next) {
     let errArr = [];
 
     switch (err.name){
+        case "SequelizeUniqueConstraintError":
         case 'SequelizeValidationError':
             statusCode = 400;
             err.errors.forEach(errData => {
@@ -15,9 +16,10 @@ module.exports = function (err, req, res, next) {
             errArr.push('token invalid!');
             break;
         default:
-            errArr.push(err.msg);
-            statusCode = err.status;
-            break
+            let message = err.msg || 'internal server error'
+            errArr.push(message);
+            statusCode = err.status || statusCode
+            break;
     }
 
     res.status(statusCode).json({msg: errArr.toString()})

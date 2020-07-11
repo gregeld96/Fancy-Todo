@@ -1,12 +1,48 @@
-body {
-    height: 100%;
+html, body {
+    height: 707px;
+    margin: 0;
+}
+
+.title-header {
+    text-align: center;
 }
 
 #login-form {
     background: rgb(105, 243, 123);
-    height: 100%;
+    min-height: 100vh;
+}
+
+#login-container {
+    background-color: rgba(236, 240, 241,0.6);
+    border-radius: 10px;
+}
+
+#register-form {
+    background: rgb(105, 243, 123);
+    min-height: 100vh;
+}
+
+#register-container {
+    background-color: rgba(236, 240, 241,0.6);
+    padding: 40px;
+    border-radius: 10px;
 }
 
 #img-login {
-    width: 75%;
+    width: 100%;
+}
+
+body {
+    background: rgb(34,189,179);
+    background: radial-gradient(circle, rgba(34,189,179,1) 0%, rgba(163,221,193,1) 100%);
+    min-height: 100vh;
+    min-width: 100vw;
+    overflow-x: hidden;
+}
+
+.universal-form {
+    background-color: rgba(236, 240, 241,0.6);
+    padding: 40px;
+    border-radius: 10px;
+    width: 60%;
 }

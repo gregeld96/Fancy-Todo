@@ -9,33 +9,37 @@
     <title>Fancy Todo App</title>
 </head>
 <body>
+
     <!-- SECTION LOGIN -->
     <section id="login-form">
         <div class="row">
-            <div class="col-7 background">
+            <div class="col-lg-6 col-xl-6 background">
                 <img id="img-login" src="./assets/pic1.jpg" alt="">
             </div>
-            <div class="col-5">
-                <div id="login-container">
-                    <h1>Welcome on Bored Todo App</h1>
+            <div class="col-lg-6 col-xl-6">
+                <div id="login-container" class="m-5">
+                    <h1 class="title-header pt-3">Welcome on Bored Todo App</h1>
                     <div class="message"></div>
                     <form onsubmit="login(event)" class="my-4">
                       <div class="form-group">
-                        <input type="email" class="form-control" name="email" id="email-login"/>
+                        <input type="email" class="form-control w-75 pl-3 mx-auto border-0" name="email" id="email-login" placeholder="example@email.com"/>
                       </div>
                       <div class="form-group">
-                        <input type="password" class="form-control" name="password" id="password-login"/>
+                        <input type="password" class="form-control pl-3 w-75 mx-auto border-0" name="password" id="password-login" placeholder="password"/>
                       </div>
-                      <button id="btn-login" type="submit" class="btn btn-primary">
-                        Login
-                      </button>
+                      <div class="d-flex justify-content-center">
+                          <button id="btn-login" type="submit" class="btn btn-primary w-75 rounded-lg">Login</button>
+                      </div>
                     </form>
-                    <button onclick="registerBtn()" class="btn btn-secondary">
-                      Don't have account ?
-                    </button>
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    
-                  </div>
+                    <p class="text-center">OR</p>
+                    <div class="d-flex justify-content-center">
+                        <div class="g-signin2 mb-3" data-onsuccess="onSignIn"></div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p style="cursor: pointer;"onclick="registerBtn()">Don't have account
+                            ? click here</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -43,202 +47,192 @@
     <!-- SECTION REGISTER -->
     <section id="register-form">
         <div class="row">
-            <div class="col-7 background"></div>
+            <div class="col-7">
+                <img id="img-login" src="./assets/pic2.jpg" alt="">
+            </div>
             <div class="col-5">
-                <div>
-                    <h1>Register</h1>
+                <div class="m-5 text-center" id="register-container">
+                    <h1>JOIN US!</h1>
                     <div class="message"></div>
                     <form onsubmit="register(event)" class="my-4">
-                      <div class="form-group">
-                        <label for="fullname">Full Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="name"
-                          id="fullname"
-                        />
-                      </div>  
-                      <div class="form-group">
-                        <label for="email-register">Email</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          name="email"
-                          id="email-register"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="password-register">Password</label>
-                        <input
-                          type="password"
-                          class="form-control"
-                          name="password"
-                          id="password-register"
-                        />
-                      </div>
-                      <button id="btn-register" type="submit" class="btn btn-primary">
-                        Submit
-                      </button>
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" class="form-control w-75 mx-auto" name="name" id="fullname" placeholder="John Doe"/>
+                        </div>  
+                        <div class="form-group">
+                            <label for="email-register">Email</label>
+                            <input type="email" class="form-control w-75 mx-auto" name="email" id="email-register" placeholder="example@email.com"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password-register">Password</label>
+                            <input type="password" class="form-control w-75 mx-auto" name="password" id="password-register" placeholder="password"/>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button id="btn-register" type="submit" class="btn btn-primary rounded-pill">Submit</button>
+                        </div> 
                     </form>
-                    <p onclick="authetication()">Already have account ?</p>
-                  </div>
+                    <p class="text-center" style="cursor: pointer;" onclick="authetication()">Already have account ?</p>
+                </div>
             </div>
         </div>
     </section>
-    <!-- SECTION HOME PAGE -->
-    <section id="home-page">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <p class="navbar-brand" onclick="homeBtn()">Navbar</p>
-            <div id="navbarNav">
-              <ul class="navbar-nav">
+
+    <!-- SECTION NAVBAR -->
+    
+    <section id="navbar">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-todo" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-todo">
+              <a class="navbar-brand" style="cursor:pointer" onclick="homeBtn()">BORED TODO</a>
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                  <p class="nav-link" onclick="addBtn()">Add Todo</span></p>
+                  <a class="nav-link" style="cursor:pointer" onclick="addBtn()">Add Todo <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                  <button onclick="logout()">Logout</button>
+                <li class="nav-item active">
+                  <form onsubmit="randomSubmit(event)" class="form-inline ml-3 my-lg-0">
+                    <select class="custom-select mr-2" id="type">
+                      <option value="">Random</option>
+                      <option value="education">Education</option>
+                      <option value="diy">DIY</option>
+                      <option value="busywork">Busy Work</option>
+                      <option value="social">Social</option>
+                      <option value="recreational">Recreational</option>
+                      <option value="cooking">Cooking</option>
+                      <option value="music">Music</option>
+                      <option value="relaxation">Relaxation</option>
+                      <option value="charity">Charity</option>
+                    </select>
+                    <button class="btn btn-light my-2 my-sm-0" type="submit">Find Activity</button>
+                </form>
                 </li>
               </ul>
+              <button class="btn btn-light my-2 my-sm-0" onclick="logout()">Logout</button>
             </div>
-          </nav>
-          
-          <div class="home-list">
-            <div class="list-group">
-            </div>
+        </div>
+      </nav>
+    </section>  
+      
+      <!-- SECTION HOME PAGE -->
+      <section id="home-page">
+          <div class="container my-3">
+              <div class="home-list">
+                <div class="list-group">
+                </div>
+              </div>
           </div>
     </section>
     
     <!-- SECTION CREATE PAGE -->
     <section id="create-form">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <p onclick="homeBtn()" class="navbar-brand">Navbar</p>
-            <div id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <button onclick="logout()">Logout</button>
-                </li>
-              </ul>
-            </div>
-        </nav>
-
-        <div class="row">
-            <div class="col-7 background"></div>
-            <div class="col-5">
-                <div id="create-container">
-                    <h1>Create My Todo List</h1>
-                    <div class="message"></div>
-                    <form onsubmit="addSubmit(event)" class="my-4">
-                      <div class="form-group">
-                        <label for="title-add">title</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="title"
-                          id="title-add"
-                        />
-                      </div>  
-                      <div class="form-group">
-                        <label for="description-add">Description</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="description"
-                          id="description-add"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="status-add">status</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="status"
-                          id="status-add"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="dueDate-add">Due Date</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="due_date"
-                          id="dueDate-add"
-                        />
-                      </div>
-                      <button type="submit" class="btn btn-primary">
-                        Submit
-                      </button>
-                    </form>
-                  </div>
-            </div>
-        </div>
+          <!-- FORM SECTION -->
+          <div id="create-container" class="text-center mt-2">
+                <h1>What I want Todo Today ?</h1>
+                <div class="message"></div>
+                
+                <form onsubmit="addSubmit(event)" class="my-4 universal-form mx-auto">
+                    <div class="form-group">
+                        <label for="title-add"><h4>Title</h4></label>
+                        <input type="text" class="form-control w-50 mx-auto" name="title" id="title-add" />
+                    </div>  
+                    <div class="form-group">
+                        <label for="description-add"><h4>Description</h4></label>
+                        <input type="text" class="form-control w-50 mx-auto" name="description" id="description-add" />
+                    </div>
+                    <div class="input-group mb-3 pt-3 w-50 mx-auto">
+                        <div class="input-group-append">
+                          <label class="input-group-text" for="inputGroupSelect02">Status</label>
+                        </div>
+                        <select class="custom-select" id="status-add">
+                          <option disabled selected>Choose...</option>
+                          <option value="Pending">Pending</option>
+                          <option value="On-going">On-going</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate-add"><h4>Due Date</h4></label>
+                        <input type="text" class="form-control w-50 mx-auto" name="due_date" id="dueDate-add" />
+                    </div>
+                    <button type="submit" class="btn btn-primary"> Submit </button>
+                </form>
+          </div>
     </section>
 
     <!-- SECTION EDIT PAGE -->
     <section id="edit-form">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <p onclick="homeBtn()" class="navbar-brand">Navbar</p>
-            <div id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <button onclick="logout()">Logout</button>
-                </li>
-              </ul>
-            </div>
-        </nav>
+      <div id="edit-container" class="text-center">
+          <h1 class="mt-2">Edit My Todo List</h1>
+          <div class="message"></div>
 
-        <div class="row">
-            <div class="col-7 background"></div>
-            <div class="col-5">
-                <div id="edit-container">
-                    <h1>Edit My Todo List</h1>
-                    <div class="message"></div>
-                    <form onsubmit="editSubmit(event)" class="my-4">
-                      <div class="form-group">
-                        <label for="title-edit">title</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="title"
-                          id="title-edit"
-                        />
-                      </div>  
-                      <div class="form-group">
-                        <label for="description-edit">Description</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="description"
-                          id="description-edit"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="status-edit">status</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="status"
-                          id="status-edit"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="dueDate-edit">Due Date</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="due_date"
-                          id="dueDate-edit"
-                        />
-                      </div>
-                      <button type="submit" class="btn btn-primary">
-                        Submit
-                      </button>
-                    </form>
+              <form onsubmit="editSubmit(event)" class="my-4 universal-form mx-auto">
+                <div class="form-group">
+                  <label for="title-edit"><h4>Title</h4></label>
+                  <input type="text" class="form-control w-50 mx-auto" name="title" id="title-edit" />
+                </div>  
+                <div class="form-group">
+                  <label for="description-edit"><h4>Description</h4></label>
+                  <input type="text" class="form-control w-50 mx-auto" name="description" id="description-edit" />
+                </div>
+                <div class="input-group mb-3 w-50 mx-auto">
+                  <div class="input-group-append">
+                      <label class="input-group-text">Status</label>
                   </div>
+                  <select class="custom-select" id="status-edit">
+                    <option value="Pending">Pending</option>
+                    <option value="On-going">On-going</option>
+                    <option value="Cancel">Cancel</option>
+                    <option value="Done">Done</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="dueDate-edit"><h4>Due Date</h4></label>
+                  <input type="text" lass="form-control w-50 mx-auto" name="due_date" id="dueDate-edit" />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+          </div>
+      </div>
+    </section>
+
+    <!-- BOREDOM SECTION -->
+    <section id="boredom-form">
+
+      <div id="boredom-container" class="text-center">
+        <h1>What Is Your Suggestion ?</h1>
+        <div class="message"></div>
+        
+        <form onsubmit="boredomSubmit(event)" class="my-4 universal-form mx-auto">
+            <div class="form-group">
+                <label for="title-boredom"><h4>Title</h4></label>
+                <input type="text" class="form-control w-50 mx-auto" name="title" id="title-boredom" />
+            </div>  
+            <div class="form-group">
+                <label for="description-boredom"><h4>Description</h4></label>
+                <input type="text" class="form-control w-50 mx-auto" name="description" id="description-boredom" />
             </div>
-        </div>
+            <div class="input-group mb-3 w-50 mx-auto">
+                <div class="input-group-append">
+                  <label class="input-group-text">Status</label>
+                </div>
+                <select class="custom-select" id="status-boredom">
+                  <option disabled selected>Choose...</option>
+                  <option value="Pending">Pending</option>
+                  <option value="On-going">On-going</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dueDate-boredom"><h4>Due Date</h4></label>
+                <input type="text" class="form-control w-50 mx-auto" name="due_date" id="dueDate-boredom" />
+            </div>
+            <button type="submit" class="btn btn-primary"> Submit </button>
+        </form>
+      </div>
     </section>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <script src="main.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>

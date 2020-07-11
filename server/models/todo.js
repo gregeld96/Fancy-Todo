@@ -33,11 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.STRING,
       validate: {
-        // statusCond(input) {
-        //   if(input.toLowerCase() != "pending" || input.toLowerCase() != "on-going" || input.toLowerCase() != "late" || input != "done"){
-        //     throw new Error(`use pending, on-going, late or done format`)
-        //   }
-        // },
         notEmpty: {
           msg: "Status cannot be empty"
         }
