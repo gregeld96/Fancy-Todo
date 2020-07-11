@@ -135,7 +135,7 @@ function fetchList(){
             $('.list-group').empty();
             data.todos.forEach(todo => {
                 $('.list-group').append(`
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" data-todoid="${todo.id}">
                     <div class="col-7">
                         <div style="cursor:pointer" class="list-group-item list-group-item-action rounded-lg" onclick="editTodo(${todo.id})">
                             <div class="d-flex w-100 justify-content-between">
@@ -147,7 +147,7 @@ function fetchList(){
                         </div>
                     </div>
                     <div class="col-1">
-                        <img src="https://img.icons8.com/ios/20/000000/trash.png"  class="my-5" onclick="remove(${todo.id})"/>
+                        <img src="https://img.icons8.com/ios/20/000000/trash.png"  class="my-5" onclick="remove(${todo.id})" style="cursor: pointer;"/>
                     </div>
                 </div>
                 `)
@@ -245,8 +245,9 @@ function editSubmit (event) {
         }
     })
         .done(data => {
-            //console.log(data)
-            authetication();
+            // console.log(data)
+            homeBtn();
+            replaceTodo(data);
         })
         .fail(err => {
             $('.message').empty();
@@ -257,21 +258,27 @@ function editSubmit (event) {
 }
 
 function remove (id) {
-    $.ajax({
-        url: `${baseUrl}/todos/${id}`,
-        method: 'DELETE',
-        headers: {
-            token: localStorage.token
+    bootbox.confirm("Do you really want to delete record?", function(result) {
+        if(result){
+            $.ajax({
+                url: `${baseUrl}/todos/${id}`,
+                method: 'DELETE',
+                headers: {
+                    token: localStorage.token
+                }
+            })
+                .done(data => {
+                    homeBtn();
+                    removeTodo(id)
+                })
+                .fail(err => {
+                    $('.message').append(`
+                        <p class="alert alert-warning">${err.responseJSON.msg}</p>
+                    `)
+                })
         }
     })
-        .done(data => {
-            authetication()
-        })
-        .fail(err => {
-            $('.message').append(`
-                <p class="alert alert-warning">${err.responseJSON.msg}</p>
-            `)
-        })
+    
 }
 
 function boredBtn(){
@@ -292,7 +299,7 @@ function boredBtn(){
             title = $('#title-boredom').val(data.activity.type)
             description = $('#description-boredom').val(data.activity.activity)
             status = $('#status-boredom').val('pending')
-            due_date = $('#dueDate-boredom').val(new Date().toISOString().substring(0,10))
+            due_date = $('#dueDate-boredom').val(new Date().toISOString().slice(0,10))
         })
         .fail(err => {
             $('.message').append(`
@@ -321,7 +328,7 @@ function randomSubmit(event){
             title = $('#title-boredom').val(data.activity.type)
             description = $('#description-boredom').val(data.activity.activity)
             status = $('#status-boredom').val('pending')
-            due_date = $('#dueDate-boredom').val(new Date().toISOString().substring(0,10))
+            due_date = $('#dueDate-boredom').val(new Date().toISOString().slice(0,10))
         })
         .fail(err => {
             $('.message').append(`
@@ -351,8 +358,9 @@ function boredomSubmit (event) {
         }
     })
         .done(data => {
-            console.log(data)
-            authetication();
+            //console.log(data)
+            homeBtn();
+            fetchList();
         })
         .fail(err => {
             $('.message').empty();
@@ -389,4 +397,29 @@ function signOut() {
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
+}
+
+function removeTodo(todoId){
+    $(`div[data-todoid="${todoId}"]`).remove();
+}
+
+function replaceTodo(todo){
+    // console.log(todo, currentId, '=======Replace')
+    $(`div[data-todoid="${currentId}"]`).replaceWith(`
+    <div class="row justify-content-center" data-todoid="${currentId}">
+        <div class="col-7">
+            <div style="cursor:pointer" class="list-group-item list-group-item-action rounded-lg" onclick="editTodo(${currentId})">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${todo.todo.title}</h5>
+                    <small>${todo.todo.status}</small>
+                </div>
+                <p class="mb-1">${todo.todo.description}</p>
+                <small>Due date: ${todo.todo.due_date}</small>
+            </div>
+        </div>
+        <div class="col-1">
+            <img src="https://img.icons8.com/ios/20/000000/trash.png"  class="my-5" onclick="remove(${currentId})" style="cursor: pointer;"/>
+        </div>
+    </div>
+    `)
 }

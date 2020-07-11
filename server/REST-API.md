@@ -429,7 +429,7 @@
 
 * **Success Response:**
   
-  **Code:** 200 OK <br />
+  **Code:** 201 Created <br />
   **Content:** 
     ```json
     {

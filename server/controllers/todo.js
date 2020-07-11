@@ -29,7 +29,10 @@ class TodoController {
             .findAll({
                 where: {
                     userId
-                }
+                },
+                order: [
+                    ["id", "ASC"]
+                ]
             })
             .then(data => {
                 res.status(200).json({ todos: data })
