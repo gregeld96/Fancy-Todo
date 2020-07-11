@@ -258,7 +258,7 @@ function editSubmit (event) {
 }
 
 function remove (id) {
-    bootbox.confirm("Do you really want to delete record?", function(result) {
+    bootbox.confirm("Do you really want to delete this plan?", function(result) {
         if(result){
             $.ajax({
                 url: `${baseUrl}/todos/${id}`,
